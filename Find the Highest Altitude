@@ -7,7 +7,6 @@ class Solution {
             current += g;          
             max = Math.max(max, current); 
         }
-
         return max;
     }
 }
