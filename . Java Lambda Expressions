@@ -29,6 +29,7 @@ class MyMath {
     }
     public boolean checker(PerformOperation p, int num) {
         return p.check(num);
+
     }
 }
 public class Solution {
