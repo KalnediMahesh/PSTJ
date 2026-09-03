@@ -28,7 +28,6 @@ public class Solution {
                     map.put(left, map.get(left) - 1);
                 }
             }
-
             if (i >= k - 1) {
                 maxUnique = Math.max(maxUnique, map.size());
             }
