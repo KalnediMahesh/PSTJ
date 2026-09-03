@@ -22,7 +22,7 @@ class Solution {
             }
         });
 
-        
+    
         if (strs[0].equals("0")) {
             return "0";
         }
