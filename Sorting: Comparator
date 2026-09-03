@@ -8,3 +8,4 @@ class Checker implements Comparator<Player> {
         return a.name.compareTo(b.name);
     }
 }
+
