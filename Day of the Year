@@ -12,7 +12,7 @@ class Solution {
             daysInMonths[1] = 29;
         }
         
-        
+    
         int dayCount = 0;
         for (int i = 0; i < month - 1; i++) {
             dayCount += daysInMonths[i];
