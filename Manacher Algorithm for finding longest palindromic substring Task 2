@@ -1,0 +1,141 @@
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+
+    static int[] manacher(String s) {
+        int n = s.length();
+        int[] d1 = new int[n];
+        int l = 0, r = -1;
+
+        for (int i = 0; i < n; i++) {
+            int k = i > r ? 1 : Math.min(d1[l + r - i], r - i + 1);
+
+            while (i - k >= 0 && i + k < n &&
+                   s.charAt(i - k) == s.charAt(i + k)) {
+                k++;
+            }
+
+            d1[i] = k--;
+
+            if (i + k > r) {
+                l = i - k;
+                r = i + k;
+            }
+        }
+
+        int[] d2 = new int[n];
+        l = 0;
+        r = -1;
+
+        for (int i = 0; i < n; i++) {
+            int k = i > r ? 0 : Math.min(d2[l + r - i + 1], r - i + 1);
+
+            while (i - k - 1 >= 0 && i + k < n &&
+                   s.charAt(i - k - 1) == s.charAt(i + k)) {
+                k++;
+            }
+
+            d2[i] = k--;
+
+            if (i + k > r) {
+                l = i - k - 1;
+                r = i + k;
+            }
+        }
+
+        int[] result = new int[2 * n];
+
+        for (int i = 0; i < n; i++) {
+            result[i] = 2 * d1[i] - 1;
+            result[i + n] = result[i];
+        }
+
+        for (int i = 0; i < n; i++) {
+            result[i] = Math.max(result[i], 2 * d2[i]);
+            result[i + n] = result[i];
+        }
+
+        return result;
+    }
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int n = Integer.parseInt(br.readLine());
+        String s = br.readLine();
+
+        String doubled = s + s;
+        int len = doubled.length();
+
+        int[] odd = new int[len];
+        int[] even = new int[len];
+
+        int l = 0, r = -1;
+
+        for (int i = 0; i < len; i++) {
+            int k = i > r ? 1 : Math.min(odd[l + r - i], r - i + 1);
+
+            while (i - k >= 0 && i + k < len &&
+                   doubled.charAt(i - k) == doubled.charAt(i + k)) {
+                k++;
+            }
+
+            odd[i] = k--;
+
+            if (i + k > r) {
+                l = i - k;
+                r = i + k;
+            }
+        }
+
+        l = 0;
+        r = -1;
+
+        for (int i = 0; i < len; i++) {
+            int k = i > r ? 0 : Math.min(even[l + r - i + 1], r - i + 1);
+
+            while (i - k - 1 >= 0 && i + k < len &&
+                   doubled.charAt(i - k - 1) == doubled.charAt(i + k)) {
+                k++;
+            }
+
+            even[i] = k--;
+
+            if (i + k > r) {
+                l = i - k - 1;
+                r = i + k;
+            }
+        }
+
+        int[] answer = new int[n];
+
+        for (int start = 0; start < n; start++) {
+            int left = start;
+            int right = start + n - 1;
+            int best = 1;
+
+            for (int center = left; center <= right; center++) {
+                int radius = odd[center];
+                int maxRadius = Math.min(radius, Math.min(center - left + 1, right - center + 1));
+
+                best = Math.max(best, 2 * maxRadius - 1);
+
+                int eradius = even[center];
+                int maxEven = Math.min(eradius, Math.min(center - left, right - center + 1));
+
+                best = Math.max(best, 2 * maxEven);
+            }
+
+            answer[start] = best;
+        }
+
+        StringBuilder out = new StringBuilder();
+
+        for (int x : answer) {
+            out.append(x).append('\n');
+        }
+
+        System.out.print(out);
+    }
+}
