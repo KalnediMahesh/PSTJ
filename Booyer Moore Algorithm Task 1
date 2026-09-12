@@ -1,0 +1,15 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int marsExploration(string s) {
+    string pattern = "SOS";
+    int count = 0;
+
+    for (int i = 0; i < s.length(); i++) {
+        if (s[i] != pattern[i % 3]) {
+            count++;
+        }
+    }
+
+    return count;
+}
